@@ -20,9 +20,11 @@ headerInfo = dataModel$headerInfo
 rows = dataModel$rows
 hasTotalRow = dataModel$hasTotalRow
 
-#if(hasTotalRow) {
-# rows=rows-1
-#}
+#need to remove the last row of we have totals
+
+if(hasTotalRow) {
+ rows=rows-1
+}
 
 
 #make a list() of doubles from grid columns 2
@@ -48,6 +50,11 @@ grid4 = grid[[2]]
 for( x in 1:rows) {
     grid4[[x]] =  prediction[x]
    
+}
+
+##blank out last total if hasRowTotals
+if(hasTotalRow) {
+    grid4[[rows+1]]=""
 }
 
 
