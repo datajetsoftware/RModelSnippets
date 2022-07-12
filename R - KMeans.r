@@ -72,20 +72,21 @@ adata = append(adata,list(ifault=kmeans2$ifault))
 
 ncenters = length(kmeans2$centers)/2
 
-cx = list()
-cy = list()
+
+cxy = list()
 
 #kmeans2$centers
 #kmeans2$centers[,]
 #kmeans2$centers[1,2]
 
 for( x in 1:ncenters) {
-    cx = append(cx, kmeans2$centers[x,1])
-    cy = append(cy, kmeans2$centers[x,2])
+    cpair = list()
+    cpair = append(cpair, kmeans2$centers[x,1])
+    cpair = append(cpair, kmeans2$centers[x,2])
+    cxy = append(cxy,list(cpair))
 }
 
-adata = append(adata,list(cx=cx))
-adata = append(adata,list(cy=cy))
+adata = append(adata,list(centers=cxy))
 
 
 dataModel$grid = grid
