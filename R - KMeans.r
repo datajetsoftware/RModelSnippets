@@ -62,14 +62,37 @@ header2$name = "Cluster"
 headerInfo = append(headerInfo,list(header2))
 
 
+adata = list(totss=kmeans2$totss)
+adata = append(adata,list(withinss=kmeans2$withinss))
+adata = append(adata,list(tot.withinss=kmeans2$tot.withinss))
+adata = append(adata,list(betweenss=kmeans2$betweenss))
+adata = append(adata,list(size=kmeans2$size))
+adata = append(adata,list(iter=kmeans2$iter))
+adata = append(adata,list(ifault=kmeans2$ifault))
 
+ncenters = length(kmeans2$centers)/2
+
+cx = list()
+cy = list()
+
+#kmeans2$centers
+#kmeans2$centers[,]
+#kmeans2$centers[1,2]
+
+for( x in 1:ncenters) {
+    cx = append(cx, kmeans2$centers[x,1])
+    cy = append(cy, kmeans2$centers[x,2])
+}
+
+adata = append(adata,list(cx=cx))
+adata = append(adata,list(cy=cy))
 
 
 dataModel$grid = grid
 dataModel$headerInfo = headerInfo
 
 dataModel$suggestedChart=c("scatter")
-
+dataModel$associatedData = adata
 
 
 #dataModel["associatedData"] = associatedData
