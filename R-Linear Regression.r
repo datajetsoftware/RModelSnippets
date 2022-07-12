@@ -75,7 +75,7 @@ header2$name = "Predicted"
 headerInfo = append(headerInfo,list(header2))
 
 adata = list(coefficients=relation$coefficients);
-adata = append(adata,(list(residuals=relation$residuals)))
+#adata = append(adata,(list(residuals=relation$residuals)))
 #adata = append(adata,(list(anArray=c(1,2,3))))
 
 
