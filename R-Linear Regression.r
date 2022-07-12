@@ -20,10 +20,19 @@ headerInfo = dataModel$headerInfo
 rows = dataModel$rows
 hasTotalRow = dataModel$hasTotalRow
 
-#need to remove the last row of we have totals
 
+
+
+
+#need to remove the last row of we have totals
 if(hasTotalRow) {
- rows=rows-1
+    dataModel$hasTotalRow=FALSE
+    grid[[1]] = grid[[1]][-rows]
+    grid[[2]] = grid[[2]][-rows]
+    grid[[3]] = grid[[3]][-rows]
+    rows=rows-1
+    hasTotalRow = FALSE
+    dataModel$rows =rows
 }
 
 
@@ -52,11 +61,6 @@ for( x in 1:rows) {
    
 }
 
-##blank out last total if hasRowTotals
-if(hasTotalRow) {
-    grid4[[rows+1]]=""
-}
-
 
 #append the new column array to the grid
 grid = append(grid,list(grid4))
@@ -81,6 +85,7 @@ dataModel$associatedData = adata
 dataModel$headerInfo = headerInfo
 
 dataModel$suggestedChart=c("XYXZScatter")
+
 
 
 #dataModel["associatedData"] = associatedData
