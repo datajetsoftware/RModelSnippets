@@ -75,6 +75,9 @@ ncenters = length(kmeans2$centers)/2
 
 cxy = list()
 
+csizes=list()
+csizecat=list()
+
 #kmeans2$centers
 #kmeans2$centers[,]
 #kmeans2$centers[1,2]
@@ -84,9 +87,21 @@ for( x in 1:ncenters) {
     cpair = append(cpair, kmeans2$centers[x,1])
     cpair = append(cpair, kmeans2$centers[x,2])
     cxy = append(cxy,list(cpair))
+    
+    csizecat = append(csizecat,x)
+    csizes = append(csizes,kmeans2$size[[x]])
 }
 
 adata = append(adata,list(centers=cxy))
+adata = append(adata,list(plottableCentroids=cxy))
+
+
+chart = fromJSON("{\"objectType\": \"chart\",\"name\": \"\",\"chartType\": \"bar\"}")
+chart$name = c("Cluster Sizes")
+chart$categories=csizecat
+chart$values=csizes
+
+adata = append(adata,list(sizes=chart))
 
 
 dataModel$grid = grid
@@ -94,6 +109,8 @@ dataModel$headerInfo = headerInfo
 
 dataModel$suggestedChart=c("scatter")
 dataModel$associatedData = adata
+
+
 
 
 #dataModel["associatedData"] = associatedData
