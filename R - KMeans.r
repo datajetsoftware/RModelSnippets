@@ -9,6 +9,15 @@ library(factoextra)
 myargs = commandArgs(trailingOnly=TRUE)
 
 
+#use 3 clusters unless passed as a parameter
+NCLUSTERS = 3
+
+if( length(myargs) == 3 ) {
+    NCLUSTERS = as.integer(myargs[[3]])
+}
+
+
+
 data = read_file(myargs[1], locale = default_locale())
 #data = read_file("D:/Datajet/datajetsoftware/output/model_in_63792650225149.json", locale = default_locale())
 
@@ -46,7 +55,7 @@ dataFrame = data.frame(unlist(grid[[2]]),unlist(grid[[3]]))
 
 
 #calculate kmeans on the dataframe
-kmeans2 <- kmeans(dataFrame, centers = 5, nstart = 5)
+kmeans2 <- kmeans(dataFrame, centers = NCLUSTERS, nstart = NCLUSTERS)
 
 
 
@@ -62,26 +71,45 @@ header2$name = "Cluster"
 headerInfo = append(headerInfo,list(header2))
 
 
+ncenters = length(kmeans2$centers)/2
+
 adata = list(totss=kmeans2$totss)
 adata = append(adata,list(withinss=kmeans2$withinss))
 adata = append(adata,list(tot.withinss=kmeans2$tot.withinss))
+
+
+#withins chart
+wsizes=list()
+wsizecat=list()
+
+for( x in 1:ncenters) {
+    wsizecat = append(wsizecat,x)
+    wsizes = append(wsizes,kmeans2$withinss[[x]])
+}
+
+wchart = fromJSON("{\"objectType\": \"chart\",\"name\": \"\",\"chartType\": \"bar\"}")
+wchart$name = c("Withinss")
+wchart$categories=wsizecat
+wchart$values=wsizes
+adata = append(adata,list(wsizes=wchart))
+
+
+
+#add info from the model into an object to be assigned to associatedData
 adata = append(adata,list(betweenss=kmeans2$betweenss))
 adata = append(adata,list(size=kmeans2$size))
 adata = append(adata,list(iter=kmeans2$iter))
 adata = append(adata,list(ifault=kmeans2$ifault))
 
-ncenters = length(kmeans2$centers)/2
+
 
 
 cxy = list()
-
 csizes=list()
 csizecat=list()
 
-#kmeans2$centers
-#kmeans2$centers[,]
-#kmeans2$centers[1,2]
 
+#make lists of centroids
 for( x in 1:ncenters) {
     cpair = list()
     cpair = append(cpair, kmeans2$centers[x,1])
@@ -92,28 +120,27 @@ for( x in 1:ncenters) {
     csizes = append(csizes,kmeans2$size[[x]])
 }
 
+#add the cluster centers
 adata = append(adata,list(centers=cxy))
+#plottableCentroids are interpreted by the graphics engine as points to plot on a scatter chart
 adata = append(adata,list(plottableCentroids=cxy))
 
-
+#cluster size chart
 chart = fromJSON("{\"objectType\": \"chart\",\"name\": \"\",\"chartType\": \"bar\"}")
 chart$name = c("Cluster Sizes")
 chart$categories=csizecat
 chart$values=csizes
-
 adata = append(adata,list(sizes=chart))
 
 
+#update the dataModel
 dataModel$grid = grid
 dataModel$headerInfo = headerInfo
-
 dataModel$suggestedChart=c("scatter")
 dataModel$associatedData = adata
 
 
 
-
-#dataModel["associatedData"] = associatedData
 
 finalModel = toJSON(dataModel)
 
