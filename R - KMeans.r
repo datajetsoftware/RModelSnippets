@@ -16,6 +16,9 @@ if( length(myargs) == 3 ) {
     NCLUSTERS = as.integer(myargs[[3]])
 }
 
+if(is.na(NCLUSTERS)) {
+    stop("clusters paramter is not defined")
+}
 
 
 data = read_file(myargs[1], locale = default_locale())
@@ -32,9 +35,13 @@ headerInfo = dataModel$headerInfo
 rows = dataModel$rows
 hasTotalRow = dataModel$hasTotalRow
 
+if(length(grid)!=3) {
+    stop("model requires 1 dimension and 2 measures")
+}
 
-
-
+if(headerInfo[[1]]$type!="label" || headerInfo[[2]]$type != "value" || headerInfo[[3]]$type != "value") {
+    stop("model requires 1 dimension and 2 measures")
+}
 
 #need to remove the last row of we have totals
 if(hasTotalRow) {
