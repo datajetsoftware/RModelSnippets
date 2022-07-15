@@ -127,11 +127,12 @@ adata = append(adata,list(plottableCentroids=cxy))
 
 
 #add centres to grid
-gridCentresX = list()
-gridCentresY = list()
+gridCentresX = array(1:rows)
+gridCentresY = array(1:rows)
+
 for(x in 1:rows) {
-    gridCentresX = append(gridCentresX,kmeans2$centers[kmeans2$cluster[x],1])
-    gridCentresY = append(gridCentresY,kmeans2$centers[kmeans2$cluster[x],2])
+    gridCentresX[x] = kmeans2$centers[kmeans2$cluster[x],1]
+    gridCentresY[x] = kmeans2$centers[kmeans2$cluster[x],2]
 }
 grid = append(grid,list(gridCentresX))
 grid = append(grid,list(gridCentresY))
