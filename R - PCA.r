@@ -1,3 +1,5 @@
+#https://www.statology.org/principal-components-analysis-in-r/
+
 #install.packages("rjson")
 #install.packages("readr")
 library(readr)
