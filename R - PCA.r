@@ -57,6 +57,7 @@ adata = append(adata,list(variance=variance))
 #prepare and populate the rotation grid
 dgrid = fromJSON("{\"objectType\": \"grid\"}")
 dgrid$name = c("rotation")
+dgrid$tag = c("PCA-GRID")
 
 dheaders=list(1:(vlen+1))
 dheaders[1]="Entity"
