@@ -4,9 +4,7 @@
 #install.packages("readr")
 library(readr)
 library(rjson)
-library(tidyverse)
-library(cluster)
-library(factoextra)
+
 
 myargs = commandArgs(trailingOnly=TRUE)
 
