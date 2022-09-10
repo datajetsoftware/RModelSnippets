@@ -23,11 +23,30 @@ headerInfo = dataModel$headerInfo
 
 nColumns = length(headerInfo)
 
+rows = dataModel$rows
+hasTotalRow = dataModel$hasTotalRow
+
+
+
+#need to remove the last row of we have totals
+if(hasTotalRow) {
+    dataModel$hasTotalRow=FALSE
+
+    for( x in 2:nColumns) {
+        grid[[x]] = grid[[x]][-rows]       
+    }
+
+    rows=rows-1
+    hasTotalRow = FALSE
+    dataModel$rows =rows
+}
+
 
 dataFrame = data.frame( as.double(unlist(grid[[2]])))
 for( x in 3:nColumns) {
     dataFrame <- cbind(dataFrame , as.double(unlist(grid[[x]])))
 }
+
 #dataFrame <- cbind(dataFrame , as.double(unlist(grid[[3]])))
 #dataFrame <- cbind(dataFrame , as.double(unlist(grid[[4]])))
 #dataFrame <- cbind(dataFrame , as.double(unlist(grid[[5]])))
@@ -39,16 +58,14 @@ colnames(dataFrame)[[x]] = headerInfo[[x+1]]$name
 
 
 results <- prcomp(dataFrame, scale = TRUE)
-results$rotation <- -1*results$rotation
-#results$rotation
 
 results$x <- -1*results$x
 
-variance =  results$sdev^2 / sum(results$sdev^2)
-vlen = length(variance)
+stdev =  results$sdev 
+vlen = length(stdev)
 
 adata = list()
-adata = append(adata,list(variance=variance))
+adata = append(adata,list(stdev=stdev))
 
 
 
