@@ -1,3 +1,5 @@
+#PCA - with Importance
+
 #https://www.statology.org/principal-components-analysis-in-r/
 
 #install.packages("rjson")
@@ -61,6 +63,10 @@ results <- prcomp(dataFrame, scale = TRUE)
 
 results$x <- -1*results$x
 
+summary <- summary(results)
+
+importance <- summary$importance
+
 stdev =  results$sdev 
 vlen = length(stdev)
 
@@ -106,6 +112,48 @@ dgrid$data=rotGrid
 
 
 adata = append(adata,list(rotation=dgrid))
+
+
+
+#prepare and populate the importancegrid
+dgrid2 = fromJSON("{\"objectType\": \"grid\"}")
+dgrid2$name = c("importance")
+
+
+
+dheaders=list(1:(vlen+1))
+dheaders[1]="Value"
+for( x in 1:vlen) {
+    dheaders[x+1]=paste0("PC",as.character(x))
+}
+
+
+for( y in 1:(vlen+1)) 
+{ 
+    rotGridInner = list(1:3)
+
+    if(y==1) 
+    {
+        for( x in 1:3) {
+            
+            
+            rotGridInner[x]=rownames(summary$importance)[x]
+        }
+    } else {
+        for( x in 1:3) {
+            rotGridInner[x]=importance[x,y-1]
+        }
+    }
+    rotGrid[y]=list(rotGridInner)
+}
+
+
+dgrid2$headers=dheaders
+dgrid2$data=rotGrid
+
+
+adata = append(adata,list(importance=dgrid2))
+
 
 
 
