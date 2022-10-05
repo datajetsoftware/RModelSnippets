@@ -1,14 +1,10 @@
 #install.packages("rjson")
 #install.packages("readr")
-#install.packages("tidyverse")
-#install.packages("factoextra")
 
 
 library(readr)
 library(rjson)
-library(tidyverse)
 library(cluster)
-library(factoextra)
 
 myargs = commandArgs(trailingOnly=TRUE)
 
