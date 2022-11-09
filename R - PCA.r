@@ -4,8 +4,8 @@
 
 #install.packages("rjson")
 #install.packages("readr")
-library(readr)
-library(rjson)
+suppressMessages(suppressWarnings(library(readr)))
+suppressMessages(suppressWarnings(library(rjson)))
 
 
 myargs = commandArgs(trailingOnly=TRUE)

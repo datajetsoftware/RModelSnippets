@@ -4,11 +4,12 @@
 #install.packages("factoextra")
 
 
-library(readr)
-library(rjson)
-library(tidyverse)
-library(cluster)
-library(factoextra)
+suppressMessages(suppressWarnings(library(readr)))
+suppressMessages(suppressWarnings(library(rjson)))
+suppressMessages(suppressWarnings(library(tidyverse)))
+suppressMessages(suppressWarnings(library(cluster)))
+suppressMessages(suppressWarnings(library(factoextra)))
+
 
 myargs = commandArgs(trailingOnly=TRUE)
 

@@ -2,9 +2,9 @@
 #install.packages("readr")
 
 
-library(readr)
-library(rjson)
-library(cluster)
+suppressMessages(suppressWarnings(library(readr)))
+suppressMessages(suppressWarnings(library(rjson)))
+suppressMessages(suppressWarnings(library(cluster)))
 
 myargs = commandArgs(trailingOnly=TRUE)
 
